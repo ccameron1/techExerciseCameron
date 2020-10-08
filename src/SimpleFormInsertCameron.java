@@ -47,7 +47,7 @@ public class SimpleFormInsertCameron extends HttpServlet {
       // Set response content type
       response.setContentType("text/html");
       PrintWriter out = response.getWriter();
-      String title = "Insert Data to DB table";
+      String title = "Success! \nContact has been inserted in Contact List";
       String docType = "<!doctype html public \"-//w3c//dtd html 4.0 " + "transitional//en\">\n";
       out.println(docType + //
             "<html>\n" + //
@@ -62,7 +62,7 @@ public class SimpleFormInsertCameron extends HttpServlet {
             "  <li><b>Address</b>: " + address + "\n" + //
             "</ul>\n");
 
-      out.println("<a href=/webproject/simpleFormSearchCameron.html>Search Data</a> <br>");
+      out.println("<a href=/techexercise-cameron/simpleFormSearchCameron.html>Search Data</a> <br>");
       out.println("</body></html>");
    }
 

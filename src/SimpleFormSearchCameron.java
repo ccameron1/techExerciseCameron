@@ -22,14 +22,16 @@ public class SimpleFormSearchCameron extends HttpServlet {
    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
       String keywordphone = request.getParameter("keywordphone");
       String keywordemail = request.getParameter("keywordemail");
-      search(keywordphone, keywordemail, response);
+      String keywordname = request.getParameter("keywordname");
+      String keywordaddress = request.getParameter("keywordaddress");
+      search(keywordphone, keywordemail, keywordname, keywordaddress, response);
       
    }
 
-   void search(String keywordphone, String keywordemail, HttpServletResponse response) throws IOException {
+   void search(String keywordphone, String keywordemail, String keywordname, String keywordaddress, HttpServletResponse response) throws IOException {
       response.setContentType("text/html");
       PrintWriter out = response.getWriter();
-      String title = "Database Result";
+      String title = "Contacts";
       String docType = "<!doctype html public \"-//w3c//dtd html 4.0 " + //
             "transitional//en\">\n"; //
       out.println(docType + //
@@ -44,17 +46,21 @@ public class SimpleFormSearchCameron extends HttpServlet {
          DBConnectionCameron.getDBConnection(getServletContext());
          connection = DBConnectionCameron.connection;
 
-         if (keywordemail.isEmpty() && keywordphone.isEmpty()) {
+         if (keywordemail.isEmpty() && keywordphone.isEmpty() && keywordname.isEmpty() && keywordaddress.isEmpty()) {
             String selectSQL = "SELECT * FROM myTableCameronTE";
             preparedStatement = connection.prepareStatement(selectSQL);
          }
          else {
-            String selectSQL = "SELECT * FROM myTableCameronTE WHERE EMAIL LIKE ? AND PHONE LIKE ?";
-            String theUserName = keywordemail + "%";
+            String selectSQL = "SELECT * FROM myTableCameronTE WHERE MYUSER LIKE ? AND EMAIL LIKE ? AND PHONE LIKE ? AND ADDRESS LIKE ?";
+            String theUserName = keywordname + "%";
             String phoneTerm = keywordphone + "%";
+            String emailTerm = keywordemail + "%";
+            String addressTerm = keywordaddress + "%";
             preparedStatement = connection.prepareStatement(selectSQL);
             preparedStatement.setString(1, theUserName);
-            preparedStatement.setString(2, phoneTerm);
+            preparedStatement.setString(2, emailTerm);
+            preparedStatement.setString(3, phoneTerm);
+            preparedStatement.setString(4, addressTerm);
          }
          ResultSet rs = preparedStatement.executeQuery();
 
@@ -63,15 +69,17 @@ public class SimpleFormSearchCameron extends HttpServlet {
             String userName = rs.getString("myuser").trim();
             String email = rs.getString("email").trim();
             String phone = rs.getString("phone").trim();
+            String addy = rs.getString("address").trim();
 
-            if (userName.contains(keywordemail) || phone.contains(keywordemail) || keywordemail.isEmpty()) {
+            if (userName.contains(keywordname) || email.contains(keywordemail) || phone.contains(keywordphone) || addy.contains(keywordaddress)) {
                out.println("ID: " + id + ", ");
                out.println("User: " + userName + ", ");
                out.println("Email: " + email + ", ");
-               out.println("Phone: " + phone + "<br>");
+               out.println("Phone: " + phone + ", ");
+               out.println("Address: " + addy  + "<br>");
             }
          }
-         out.println("<a href=/webproject/simpleFormSearchCameron.html>Search Data</a> <br>");
+         out.println("<a href=/techexercise-cameron/simpleFormSearchCameron.html>Search Data</a> <br>");
          out.println("</body></html>");
          rs.close();
          preparedStatement.close();
