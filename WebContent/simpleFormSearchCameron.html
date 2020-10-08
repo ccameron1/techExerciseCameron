@@ -1,0 +1,64 @@
+<html>
+<head>
+<style>
+header {
+    background-color:black;
+    color:white;
+    text-align:center;
+    padding:5px;	 
+}
+nav {
+    line-height:30px;
+    background-color:#eeeeee;
+    height:300px;
+    width:100px;
+    float:left;
+    padding:5px;	      
+}
+section {
+    width:350px;
+    float:left;
+    padding:10px;	 	 
+}
+footer {
+    background-color:black;
+    color:white;
+    clear:both;
+    text-align:center;
+    padding:5px;	 	 
+}
+</style>
+</head>
+
+<body>
+<header>
+<h1> Search Contact List </h1>
+</header>
+
+<nav>
+<a href="/techexercise-cameron/simpleFormInsertCameron.html">Insert a New Contact</a> <br>
+</nav>
+
+<section>
+	<h1>Search</h1>
+	<p>To show all contacts, click search with no fields filled in.</p>
+	<form action="SimpleFormSearchCameron" method="POST">
+	
+		Name: <input type="text" name="keywordname"> <br />
+		Email: <input type="text" name="keywordemail"> <br />
+		Phone: <input type="text" name="keywordphone"> <br />
+		Address: <input type="text" name="keywordaddress"> <br />
+		
+		<input type="submit" value="Search" /> 
+	</form>
+	
+	
+	
+
+</section>
+
+<footer>
+Copyright
+</footer>
+</body>
+</html>
